@@ -1,2 +1,2 @@
-# MSS-Malicious-Site-Scanner-
+# MSS-Malicious-Site-Scanner
 Malicious Site Scanner
