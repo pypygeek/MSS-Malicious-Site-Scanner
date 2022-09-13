@@ -3,20 +3,23 @@ import requests
 import re
 import yara
 
-domain ='https://www.criminalip.io/ko'
+domain =''
 
 def mal_checker(suspect_url):
     """ 악성 진단 함수 """
     target_url = requests.get(suspect_url)
-    target_url_data = target_url.text
-    
-    rule = yara.compile(filepaths=
-    {
-        'test':'rule/test.yar'
-    }
-    )
-    matches = rule.match(data=target_url_data)
-    print(f"{suspect_url} -> {matches}" )
+    if target_url.status_code==200:
+        target_url_data = target_url.text
+        
+        rule = yara.compile(filepaths=
+        {
+            'test':'rule/test.yar'
+        }
+        )
+        matches = rule.match(data=target_url_data)
+        print(f"{suspect_url} -> {matches}" )
+    else:
+        pass
 
 try:
     all_url = []
@@ -53,8 +56,11 @@ try:
         else:
             for url_single in all_url_deduplication:
                 # 특정 문자열 제거
-                url_single= ''.join( x for x in url_single if x not in ')')
-                mal_checker(url_single)
+                url_single = ''.join( x for x in url_single if x not in ')')
+                if url_single[-4:] not in ['.css', 'off2', 'woff', '.ttf', '.eot', '.jpg', 'png']:
+                    mal_checker(url_single)
+                else:
+                    pass
     else:
         print(f"페이지 상태를 확인해세요. STATUS CODE :  {response.status_code}")
 except:
