@@ -9,7 +9,6 @@ def mal_checker(suspect_url):
     """ 악성 진단 함수 """
     target_url = requests.get(suspect_url)
     target_url_data = target_url.text
-    # print(target_url_data)
 
     # TODO YARA 연동하기
     rule = yara.compile(source='rule html_test: test {strings: $a = "html" condition: $a}')
@@ -45,13 +44,13 @@ try:
 
         # 중복 제거
         all_url_deduplication = list(dict.fromkeys(all_url_conversion))
-        url_list = '\n'.join(all_url_deduplication)
 
         if not all_url_deduplication:
             print('url does not exist.')
         else:
             for url_single in all_url_deduplication:
-                # print(url_single)
+                # 특정 문자열 제거
+                url_single= ''.join( x for x in url_single if x not in ')')
                 mal_checker(url_single)
     else:
         print(f"페이지 상태를 확인해세요. STATUS CODE :  {response.status_code}")
