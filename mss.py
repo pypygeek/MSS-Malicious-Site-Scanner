@@ -3,15 +3,18 @@ import requests
 import re
 import yara
 
-domain =''
+domain ='https://www.criminalip.io/ko'
 
 def mal_checker(suspect_url):
     """ 악성 진단 함수 """
     target_url = requests.get(suspect_url)
     target_url_data = target_url.text
-
-    # TODO YARA 연동하기
-    rule = yara.compile(source='rule html_test: test {strings: $a = "html" condition: $a}')
+    
+    rule = yara.compile(filepaths=
+    {
+        'test':'rule/test.yar'
+    }
+    )
     matches = rule.match(data=target_url_data)
     print(f"{suspect_url} -> {matches}" )
 
