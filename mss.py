@@ -1,6 +1,7 @@
 from urllib import response
 import requests
 import re
+import yara
 
 domain =''
 
