@@ -2,7 +2,7 @@ from urllib import response
 import requests
 import re
 
-domain ='https://dojang.io/mod/page/view.php?id=2293'
+domain =''
 
 def mal_checker(suspect_url):
     """ 악성 진단 함수 """
